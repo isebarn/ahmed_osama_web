@@ -1,0 +1,6 @@
+
+Data:
+  - method: data
+    get: /urls/url_list
+  - method: rate
+    post: /rating/rate
