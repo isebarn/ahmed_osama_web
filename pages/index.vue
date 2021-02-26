@@ -97,7 +97,7 @@ export default {
     rate (rating) {
       this.$api.Data.rate({
         look_id: this.items[0].look_id,
-        rating,
+        rating: rating ? 'Like' : 'Dislike',
         data: this.items
       })
       this.generate()
