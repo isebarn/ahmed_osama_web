@@ -13,7 +13,7 @@
                   <v-img
                     contain
                     :src="item.image"
-                    class="white--text align-end"
+                    class="white--text align-end cover"
                     gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
                   >
                     <v-card-title v-text="item.category" />
@@ -105,7 +105,6 @@ export default {
 
     generate () {
       const self = this
-      self.loading_dison = true
       this.$api.Data.data()
         .then(function (response) {
           self.items = response.data
@@ -114,7 +113,6 @@ export default {
           console.log(error)
         })
         .then(function () {
-          self.loading_dison = false
         })
     }
   }
@@ -124,5 +122,9 @@ export default {
 <style>
 .image {
   background-color: gray;
+}
+
+.cover {
+  width: 100vh;
 }
 </style>
