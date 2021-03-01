@@ -126,5 +126,6 @@ export default {
 
 .cover {
   width: 100vh;
+  max-height: 50vh;
 }
 </style>
