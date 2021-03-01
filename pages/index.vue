@@ -9,15 +9,13 @@
               :key="i"
             >
               <v-container fill-height>
-                <v-card>
+                <v-card style="background-color: white">
                   <v-img
                     contain
                     :src="item.image"
-                    class="white--text align-end cover"
-                    gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
-                  >
-                    <v-card-title v-text="item.category" />
-                  </v-img>
+                    class="align-end cover"
+                  />
+                  <v-card-title class="black--text" v-text="item.category" />
                 </v-card>
               </v-container>
             </v-carousel-item>
@@ -33,11 +31,9 @@
                 contain
                 :src="item.image"
                 class="white--text align-end"
-                gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
                 height="200px"
-              >
-                <v-card-title v-text="item.category" />
-              </v-img>
+              />
+              <v-card-title v-text="item.category" />
             </v-card>
           </v-col>
         </v-row>
