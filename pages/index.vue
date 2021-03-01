@@ -121,7 +121,7 @@ export default {
 
 <style>
 .image {
-  background-color: gray;
+  background-color: white;
 }
 
 .cover {
