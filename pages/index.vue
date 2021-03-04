@@ -15,7 +15,15 @@
                     :src="item.image"
                     class="align-end cover"
                   />
-                  <v-card-title class="black--text" v-text="item.category" />
+                  <v-card-actions>
+                    <v-card-title class="black--text" v-text="item.category" />
+                    <v-spacer />
+                    <v-btn icon>
+                      <v-icon class="outlined" :color="item.like ? 'green' : '#6D6D71'" @click="like(item)">
+                        mdi-heart
+                      </v-icon>
+                    </v-btn>
+                  </v-card-actions>
                 </v-card>
               </v-container>
             </v-carousel-item>
@@ -33,7 +41,15 @@
                 class="white--text align-end"
                 height="200px"
               />
-              <v-card-title v-text="item.category" />
+              <v-card-actions>
+                <v-card-title class="black--text" v-text="item.category" />
+                <v-spacer />
+                <v-btn icon>
+                  <v-icon :color="item.like ? 'green' : 'gray'" @click="like(item)">
+                    mdi-heart
+                  </v-icon>
+                </v-btn>
+              </v-card-actions>
             </v-card>
           </v-col>
         </v-row>
@@ -47,7 +63,7 @@
         <v-row>
           <v-col cols="6">
             <v-btn block color="#B5DEB7" @click="rate(true)">
-              Yes
+              {{ confirm_text }}
             </v-btn>
           </v-col>
           <v-col cols="6">
@@ -86,17 +102,41 @@ export default {
 
     offset () {
       return this.is_mobile ? 0 : 3
+    },
+
+    confirm_text () {
+      return this.portion()
+        ? this.items.filter(x => x.like).length + '/' + this.items.length
+        : 'Yes'
     }
   },
 
   methods: {
     rate (rating) {
+      let portion = this.items.length
+      if (!rating) {
+        portion = 0
+      } else if (this.portion()) {
+        portion = this.items.filter(x => x.like).length
+      }
+
       this.$api.Data.rate({
         look_id: this.items[0].look_id,
         rating: rating ? 'Like' : 'Dislike',
-        data: this.items
+        data: this.items,
+        portion: portion + '/' + this.items.length
       })
       this.generate()
+    },
+
+    portion () {
+      return !(!this.items || this.items.filter(x => x.like).length === 0)
+    },
+
+    like (item) {
+      const idx = this.items.indexOf(item)
+      item.like = !item.like
+      this.$set(this.items, idx, item)
     },
 
     generate () {
@@ -124,4 +164,5 @@ export default {
   width: 100vh;
   max-height: 50vh;
 }
+
 </style>
