@@ -123,7 +123,7 @@ export default {
       this.$api.Data.rate({
         look_id: this.items[0].look_id,
         rating: rating ? 'Like' : 'Dislike',
-        data: this.items,
+        data: this.portion() ? this.items.filter(x => x.like) : this.items,
         portion: portion + '/' + this.items.length
       })
       this.generate()
