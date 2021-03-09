@@ -1,48 +1,27 @@
 <template>
-  <v-container fluid>
+  <v-container fluid pa-0>
     <v-row>
       <v-col :cols="cols" :offset="offset">
         <v-row dense>
-          <v-carousel v-if="is_mobile" class="image" hide-delimiter-background>
-            <v-carousel-item
-              v-for="(item, i) in items"
-              :key="i"
-            >
-              <v-container fill-height>
-                <v-card style="background-color: white">
-                  <v-img
-                    contain
-                    :src="item.image"
-                    class="align-end cover"
-                  />
-                  <v-card-actions>
-                    <v-card-title class="black--text" v-text="item.category" />
-                    <v-spacer />
-                    <v-btn icon>
-                      <v-icon class="outlined" :color="item.like ? 'green' : '#6D6D71'" @click="like(item)">
-                        mdi-heart
-                      </v-icon>
-                    </v-btn>
-                  </v-card-actions>
-                </v-card>
-              </v-container>
-            </v-carousel-item>
-          </v-carousel>
           <v-col
             v-for="item in items"
-            v-else
             :key="item.image"
             :cols="item.flex"
           >
-            <v-card>
+            <v-card
+              :elevation="item.like ? 1 : 20"
+              :outlined="item.like"
+              tile
+              height="100%"
+            >
               <v-img
                 contain
                 :src="item.image"
-                class="white--text align-end"
+                class="align-end"
                 height="200px"
               />
               <v-card-actions>
-                <v-card-title class="black--text" v-text="item.category" />
+                <v-card-title class="text-caption" v-text="item.category" />
                 <v-spacer />
                 <v-btn icon>
                   <v-icon :color="item.like ? 'green' : 'gray'" @click="like(item)">
