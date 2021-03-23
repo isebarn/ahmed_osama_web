@@ -1,6 +1,34 @@
 <template>
   <v-container fluid pa-0>
     <v-row>
+      <v-layout :class="is_small ? '' : 'align-center justify-center'">
+        <v-layout :class="is_small ? 'justify-start' : 'justify-end'">
+          <v-progress-circular
+            :rotate="360"
+            :size="120"
+            :width="6"
+            :value="user_total_rated/100"
+            color="teal"
+            :class="is_small ? '' : 'px-5 ma-5'"
+          >
+            {{ user_total_rated }}/100
+          </v-progress-circular>
+        </v-layout>
+        <v-layout :class="is_small ? 'justify-end' : 'justify-start'">
+          <v-progress-circular
+            :rotate="360"
+            :size="120"
+            :width="6"
+            :value="total_rated/30000"
+            color="teal"
+            :class="is_small ? '' : 'px-5 ma-5'"
+          >
+            {{ total_rated }} / 30000
+          </v-progress-circular>
+        </v-layout>
+      </v-layout>
+    </v-row>
+    <v-row>
       <v-col :cols="cols" :offset="offset">
         <v-row dense>
           <v-col
@@ -66,11 +94,17 @@ export default {
 
   data () {
     return {
-      items: null
+      items: null,
+      checked: 0,
+      user_rate_count: 0
     }
   },
 
   computed: {
+    is_small () {
+      return this.$vuetify.breakpoint.xs
+    },
+
     is_mobile () {
       return this.$vuetify.breakpoint.mdAndDown
     },
@@ -87,10 +121,34 @@ export default {
       return this.portion()
         ? this.items.filter(x => x.like).length + '/' + this.items.length
         : 'Yes'
+    },
+
+    total_rated () {
+      return this.checked
+    },
+
+    user_total_rated () {
+      return this.user_rate_count
     }
   },
 
+  created () {
+    this.user_rate_count = this.user_cookie()
+  },
+
   methods: {
+    user_cookie () {
+      if (!this.$cookies.get('completed_rates')) {
+        const expires = new Date()
+        expires.setHours(23, 59, 59, 999)
+        this.$cookies.set('completed_rates', 0, {
+          expires
+        })
+      }
+
+      return this.$cookies.get('completed_rates')
+    },
+
     rate (rating) {
       let portion = this.items.length
       if (!rating) {
@@ -105,6 +163,10 @@ export default {
         data: this.portion() ? this.items.filter(x => x.like) : this.items,
         portion: portion + '/' + this.items.length
       })
+
+      this.user_rate_count += 1
+      this.$cookies.set('completed_rates', this.user_rate_count
+      )
       this.generate()
     },
 
@@ -122,7 +184,8 @@ export default {
       const self = this
       this.$api.Data.data()
         .then(function (response) {
-          self.items = response.data
+          self.items = response.data.style
+          self.checked = response.data.checked
         })
         .catch(function (error) {
           console.log(error)
