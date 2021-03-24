@@ -1,35 +1,69 @@
 <template>
   <v-container fluid pa-0>
-    <v-row>
+    <v-row v-if="!is_desktop">
       <v-layout :class="is_small ? '' : 'align-center justify-center'">
         <v-layout :class="is_small ? 'justify-start' : 'justify-end'">
-          <v-progress-circular
-            :rotate="360"
-            :size="120"
-            :width="6"
-            :value="user_total_rated/100"
-            color="teal"
-            :class="is_small ? '' : 'px-5 ma-5'"
-          >
-            {{ user_total_rated }}/100
-          </v-progress-circular>
+          <v-card flat>
+            <v-card-title class="text-caption justify-center">
+              Daily Progress
+            </v-card-title>
+            <v-progress-circular
+              :rotate="360"
+              :size="120"
+              :width="6"
+              :value="user_total_rated/100"
+              color="teal"
+              :class="is_small ? '' : 'px-5 ma-5'"
+            >
+              {{ user_total_rated }}/100
+            </v-progress-circular>
+          </v-card>
         </v-layout>
         <v-layout :class="is_small ? 'justify-end' : 'justify-start'">
-          <v-progress-circular
-            :rotate="360"
-            :size="120"
-            :width="6"
-            :value="total_rated/30000"
-            color="teal"
-            :class="is_small ? '' : 'px-5 ma-5'"
-          >
-            {{ total_rated }} / 30000
-          </v-progress-circular>
+          <v-card flat>
+            <v-card-title class="text-caption justify-center">
+              Total Progress
+            </v-card-title>
+            <v-progress-circular
+              :rotate="360"
+              :size="120"
+              :width="6"
+              :value="total_rated/30000"
+              color="teal"
+              :class="is_small ? '' : 'px-5 ma-5'"
+            >
+              {{ total_rated }} / 30000
+            </v-progress-circular>
+          </v-card>
         </v-layout>
       </v-layout>
     </v-row>
     <v-row>
-      <v-col :cols="cols" :offset="offset">
+      <v-col v-if="is_desktop" cols="3">
+        <v-container fluid class="fill-height">
+          <v-layout class="align-center justify-end">
+            <v-card flat>
+              <v-card-title class="text-caption justify-center">
+                Daily Progress
+              </v-card-title>
+              <v-row>
+                <v-progress-circular
+                  :rotate="360"
+                  :size="150"
+                  :width="8"
+                  :value="user_total_rated/100"
+                  color="teal"
+                  :class="is_small ? '' : 'px-5 ma-5'"
+                >
+                  {{ user_total_rated }}/100
+                </v-progress-circular>
+              </v-row>
+            </v-card>
+            </v-progress-circular>
+          </v-layout>
+        </v-container>
+      </v-col>
+      <v-col :cols="cols">
         <v-row dense>
           <v-col
             v-for="item in items"
@@ -80,6 +114,30 @@
           </v-col>
         </v-row>
       </v-col>
+      <v-col v-if="is_desktop" cols="3">
+        <v-container fluid class="fill-height">
+          <v-layout class="align-center justify-start">
+            <v-card flat>
+              <v-card-title class="text-caption justify-center">
+                Total Progress
+              </v-card-title>
+              <v-row>
+                <v-progress-circular
+                  :rotate="360"
+                  :size="150"
+                  :width="8"
+                  :value="total_rated/30000"
+                  color="teal"
+                  :class="is_small ? '' : 'px-5 ma-5'"
+                >
+                  {{ total_rated }} / 30000
+                </v-progress-circular>
+              </v-row>
+            </v-card>
+            </v-progress-circular>
+          </v-layout>
+        </v-container>
+      </v-col>
     </v-row>
   </v-container>
 </template>
@@ -101,6 +159,10 @@ export default {
   },
 
   computed: {
+    is_desktop () {
+      return this.$vuetify.breakpoint.lgAndUp
+    },
+
     is_small () {
       return this.$vuetify.breakpoint.xs
     },
