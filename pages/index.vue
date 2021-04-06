@@ -7,16 +7,14 @@
             <v-card-title class="text-caption justify-center">
               Daily Progress
             </v-card-title>
-            <v-progress-circular
-              :rotate="360"
-              :size="120"
-              :width="6"
-              :value="user_total_rated/100"
-              color="teal"
+            <vue-ellipse-progress
+              :progress="user_total_rated"
+              :size="150"
+              :legend="true"
+              :legend-value="user_total_rated"
+              :legend-formatter="({currentValue}) => currentValue + '/100'"
               :class="is_small ? '' : 'px-5 ma-5'"
-            >
-              {{ user_total_rated }}/100
-            </v-progress-circular>
+            />
           </v-card>
         </v-layout>
         <v-layout :class="is_small ? 'justify-end' : 'justify-start'">
@@ -24,16 +22,14 @@
             <v-card-title class="text-caption justify-center">
               Total Progress
             </v-card-title>
-            <v-progress-circular
-              :rotate="360"
-              :size="120"
-              :width="6"
-              :value="total_rated/30000"
-              color="teal"
+            <vue-ellipse-progress
+              :progress="100*total_rated/30000"
+              :size="150"
+              :legend="true"
+              :legend-value="total_rated"
+              :legend-formatter="({currentValue}) => currentValue + '/30000'"
               :class="is_small ? '' : 'px-5 ma-5'"
-            >
-              {{ total_rated }} / 30000
-            </v-progress-circular>
+            />
           </v-card>
         </v-layout>
       </v-layout>
@@ -47,19 +43,15 @@
                 Daily Progress
               </v-card-title>
               <v-row>
-                <v-progress-circular
-                  :rotate="360"
+                <vue-ellipse-progress
+                  :progress="user_total_rated"
                   :size="150"
-                  :width="8"
-                  :value="user_total_rated/100"
-                  color="teal"
-                  :class="is_small ? '' : 'px-5 ma-5'"
-                >
-                  {{ user_total_rated }}/100
-                </v-progress-circular>
+                  :legend="true"
+                  :legend-value="user_total_rated"
+                  :legend-formatter="({currentValue}) => currentValue + '/100'"
+                />
               </v-row>
             </v-card>
-            </v-progress-circular>
           </v-layout>
         </v-container>
       </v-col>
@@ -122,19 +114,15 @@
                 Total Progress
               </v-card-title>
               <v-row>
-                <v-progress-circular
-                  :rotate="360"
+                <vue-ellipse-progress
+                  :progress="100*total_rated/30000"
                   :size="150"
-                  :width="8"
-                  :value="total_rated/30000"
-                  color="teal"
-                  :class="is_small ? '' : 'px-5 ma-5'"
-                >
-                  {{ total_rated }} / 30000
-                </v-progress-circular>
+                  :legend="true"
+                  :legend-value="total_rated"
+                  :legend-formatter="({currentValue}) => currentValue + '/30000'"
+                />
               </v-row>
             </v-card>
-            </v-progress-circular>
           </v-layout>
         </v-container>
       </v-col>
